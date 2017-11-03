@@ -12,7 +12,7 @@ class Game(db.Model):
     description = db.Column(db.String(100))
 
 
-def connect_to_db(app, db_uri="postgresql:///testdb"):
+def connect_to_db(app, db_uri="postgresql:///games"):
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     db.app = app
     db.init_app(app)
@@ -22,7 +22,7 @@ def example_data():
     """Create example data for the test database."""
     game1 = Game(name='football', description="My favorite game")
     game2 = Game(name='basketball', description="My second favorite game")
-   
+
     db.session.add_all([game1, game2])
     db.session.commit()
 
@@ -32,4 +32,3 @@ if __name__ == '__main__':
 
     connect_to_db(app)
     print "Connected to DB."
- 

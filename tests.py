@@ -39,6 +39,11 @@ class PartyTests(unittest.TestCase):
         # check if the party details is seen in the rsvp page
         self.assertIn('123 Magic Unicorn Way', result.data)
 
+    def test_games_2(self):
+
+        result = self.client.get("/games", follow_redirects=True)
+        self.assertIn('<form', result.data)
+
 
 class PartyTestsDatabase(unittest.TestCase):
     """Flask tests that use the database."""
@@ -55,6 +60,10 @@ class PartyTestsDatabase(unittest.TestCase):
         # Create tables and add sample data (uncomment when testing database)
         db.create_all()
         example_data()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['RSVP'] = True
 
     def tearDown(self):
         """Do at end of every test."""
